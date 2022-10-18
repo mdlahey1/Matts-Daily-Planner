@@ -1,5 +1,7 @@
 //Define Variables
 var currentDay = $("#currentDay");
+var timeBlock = $('.time-block');
+var saveBtn = $(".saveBtn");
 
 //Display the current date in the jumbotron element
 var currDate = moment().format('dddd, MMM Do YYYY');
@@ -12,7 +14,7 @@ function timeColors() {
     console.log(currentTime);
 
     //loop through all time-blocks
-    $(".time-block").each(function() {
+    timeBlock.each(function() {
         //create variable that defines which time-block the loop is currently on
         var currentBlock = parseInt($(this).attr("id").split("hour")[1]);
         console.log(currentBlock);
@@ -33,8 +35,19 @@ function timeColors() {
             $(this).removeClass("present");
             $(this).addClass("future");
         }
-    })
+    });
+};
 
-}
+//Create a function with an event listener that allows the user to save calendar tasks to individual hours when the save button is hit
+$(document).ready(function() {
+    saveBtn.on("click", function() {
+        //Create variables that will be stored in local storage
+        var description = $(this).siblings(".description").val();
+        var time = $(this).parent().attr("id");
+
+        //Save description using local storage
+        localStorage.setItem(time, description);
+    });
+});
 
 timeColors();
