@@ -1,3 +1,40 @@
+//Define Variables
+var currentDay = $("#currentDay");
+
 //Display the current date in the jumbotron element
 var currDate = moment().format('dddd, MMM Do YYYY');
-$("#currentDay").text(currDate);
+currentDay.text(currDate);
+
+//Add colors to timeblocks dependent on the current time of day
+function timeColors() {
+    //store current time in a variable
+    var currentTime = moment().hour();
+    console.log(currentTime);
+
+    //loop through all time-blocks
+    $(".time-block").each(function() {
+        //create variable that defines which time-block the loop is currently on
+        var currentBlock = parseInt($(this).attr("id").split("hour")[1]);
+        console.log(currentBlock);
+
+        //Check to see if the time-block is in the past, future or present and update the class accordingly
+        if (currentTime > currentBlock) {
+            $(this).removeClass("future");
+            $(this).removeClass("present");
+            $(this).addClass("past");
+        }
+        else if (currentTime === currentBlock) {
+            $(this).removeClass("future");
+            $(this).removeClass("past");
+            $(this).addClass("present");
+        }
+        else {
+            $(this).removeClass("past");
+            $(this).removeClass("present");
+            $(this).addClass("future");
+        }
+    })
+
+}
+
+timeColors();
