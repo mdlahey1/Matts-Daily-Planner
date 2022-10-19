@@ -34,7 +34,7 @@ function timeColors() {
             $(this).removeClass("past");
             $(this).removeClass("present");
             $(this).addClass("future");
-        }
+        };
     });
 };
 
@@ -42,12 +42,22 @@ function timeColors() {
 $(document).ready(function() {
     saveBtn.on("click", function() {
         //Create variables that will be stored in local storage
-        var description = $(this).siblings(".description").val();
+        var task = $(this).siblings(".description").val();
         var time = $(this).parent().attr("id");
 
         //Save description using local storage
-        localStorage.setItem(time, description);
+        localStorage.setItem(time, task);
     });
 });
 
+//Create a function that retrieves existing tasks from local storage
+function renderTasks() {
+    timeBlock.each(function() {
+        var currentBlock = parseInt($(this).attr("id").split("hour")[1]);
+        console.log("Tasks:" + currentBlock);
+        $(this).children(".description").val(localStorage.getItem("hour" + currentBlock));
+    });
+}
+
 timeColors();
+renderTasks();
